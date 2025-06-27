@@ -1463,6 +1463,29 @@
         }
       });
     });
+
+    // Hamburger menu toggle for mobile (works with AJAX-included header)
+    document.addEventListener('DOMContentLoaded', function() {
+      function setupHamburgerMenu() {
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.getElementById('main-nav');
+        if (navToggle && navLinks) {
+          navToggle.addEventListener('click', function() {
+            const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+            navToggle.setAttribute('aria-expanded', !expanded);
+            navLinks.classList.toggle('open');
+          });
+        }
+      }
+      // Run once on DOMContentLoaded
+      setupHamburgerMenu();
+      // Also run after header is loaded via AJAX
+      const headerInclude = document.getElementById('header-include');
+      if (headerInclude) {
+        const observer = new MutationObserver(setupHamburgerMenu);
+        observer.observe(headerInclude, { childList: true, subtree: true });
+      }
+    });
     </script>
   </body>
 </html>
